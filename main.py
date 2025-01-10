@@ -5,9 +5,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
-
-
-
 # Define the start and end dates for the data retrieval
 start_date = datetime(2024, 1, 1)
 end_date = datetime(2024, 12, 31)
