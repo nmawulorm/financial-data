@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 from scipy.interpolate import CubicSpline
+from sklearn.metrics import mean_squared_error
 
 # Define the start and end dates for the data retrieval
 start_date = datetime(2024, 1, 1)
@@ -45,10 +46,12 @@ plt.grid(True)
 plt.show()
 
 def nelson_siegel(maturity, beta0, beta1, beta2, lambda_):
+    maturity = np.array(maturity)  # Ensure it's a NumPy array for element-wise operations
     term1 = beta0
     term2 = beta1 * (1 - np.exp(-lambda_ * maturity)) / (lambda_ * maturity)
     term3 = beta2 * ((1 - np.exp(-lambda_ * maturity)) / (lambda_ * maturity) - np.exp(-lambda_ * maturity))
     return term1 + term2 + term3
+
 
 maturities = [1/12, 3/12, 6/12, 1, 2, 3, 5, 7, 10, 20, 30]  # Convert months to years
 yields = treasury_data.iloc[-1].values  # Use the latest yield data for fitting
@@ -79,4 +82,17 @@ plt.title('Comparison of Yield Curve Models')
 plt.legend()
 plt.grid(True)
 plt.show()
+
+
+# Calculate RMSE for Nelson-Siegel
+yields_nelson_siegel = nelson_siegel(maturities, *params)
+rmse_nelson_siegel = np.sqrt(mean_squared_error(yields, yields_nelson_siegel))
+
+# Calculate RMSE for Cubic-Spline
+yields_spline_actual = cubic_spline(maturities)
+rmse_cubic_spline = np.sqrt(mean_squared_error(yields, yields_spline_actual))
+
+print("RMSE - Nelson-Siegel Model:", rmse_nelson_siegel)
+print("RMSE - Cubic-Spline Model:", rmse_cubic_spline)
+
 
