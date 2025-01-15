@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 
 # TODO Step 1: Generate 5 uncorrelated Gaussian random variables
@@ -19,3 +20,18 @@ correlation_matrix = df.corr()
 print("\nCorrelation Matrix:")
 print(correlation_matrix)
 
+
+# TODO Perform Principal Component Analysis (PCA)
+# Step 2: Run PCA using the covariance matrix
+pca = PCA()
+pca.fit(df)
+
+# Extract explained variance and components
+explained_variance = pca.explained_variance_ratio_  # Variance explained by each component
+components = pca.components_  # Principal components
+
+print("\nExplained Variance Ratio (by Component):")
+print(explained_variance)
+
+print("\nPrincipal Components:")
+print(components)
