@@ -83,7 +83,7 @@ plt.legend()
 plt.grid(True)
 plt.show()
 
-
+# TODO 2. Compare the Models in Terms of Fit
 # Calculate RMSE for Nelson-Siegel
 yields_nelson_siegel = nelson_siegel(maturities, *params)
 rmse_nelson_siegel = np.sqrt(mean_squared_error(yields, yields_nelson_siegel))
@@ -95,4 +95,31 @@ rmse_cubic_spline = np.sqrt(mean_squared_error(yields, yields_spline_actual))
 print("RMSE - Nelson-Siegel Model:", rmse_nelson_siegel)
 print("RMSE - Cubic-Spline Model:", rmse_cubic_spline)
 
+# TODO 3. Specify Model Parameters
 
+# Print Nelson-Siegel parameters
+print("Nelson-Siegel Parameters:")
+print(f"Beta0: {params[0]:.4f}, Beta1: {params[1]:.4f}, Beta2: {params[2]:.4f}, Lambda: {params[3]:.4f}")
+
+# Print Cubic-Spline coefficients (knots and values)
+print("\nCubic-Spline Coefficients:")
+print("Knots:", maturities)
+print("Spline Coefficients:", cubic_spline.c)
+
+# TODO Address the Ethical Aspect of Smoothing
+
+# Ethical discussion
+ethics_statement = """
+Smoothing the yield curve with the Nelson-Siegel model may not inherently be unethical.
+It depends on how the model is used. If the goal is to present a simplified, interpretable
+representation of the yield curve for analysis or policymaking, smoothing is justified.
+However, if smoothing is used to mislead or obscure data patterns (e.g., suppressing anomalies
+that reflect real market risks), it could be unethical. Transparency regarding the assumptions
+and limitations of the model is essential.
+"""
+
+print("\nEthical Discussion:")
+print(ethics_statement)
+
+# TODO Add this conclusion
+# "While the cubic-spline model provides a near-perfect fit, the Nelson-Siegel model's interpretability makes it more practical for policy analysis.
