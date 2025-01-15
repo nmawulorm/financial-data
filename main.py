@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
+from scipy.interpolate import CubicSpline
 
 # Define the start and end dates for the data retrieval
 start_date = datetime(2024, 1, 1)
@@ -57,3 +58,25 @@ initial_guess = [4, -1, 1, 0.5]  # Adjust these as needed
 params, _ = curve_fit(nelson_siegel, maturities, yields, p0=initial_guess)
 
 print("Fitted Parameters (Beta0, Beta1, Beta2, Lambda):", params)
+
+
+
+# Fit a cubic spline model
+cubic_spline = CubicSpline(maturities, yields)
+
+# Generate interpolated yields for plotting
+maturities_fine = np.linspace(min(maturities), max(maturities), 500)
+yields_spline = cubic_spline(maturities_fine)
+
+# Plot the yield curve for Nelson-Siegel and Cubic-Spline models
+plt.figure(figsize=(12, 6))
+plt.plot(maturities, yields, 'o', label='Actual Yields')
+plt.plot(maturities_fine, nelson_siegel(maturities_fine, *params), label='Nelson-Siegel Fit')
+plt.plot(maturities_fine, yields_spline, label='Cubic-Spline Fit')
+plt.xlabel('Maturity (Years)')
+plt.ylabel('Yield (%)')
+plt.title('Comparison of Yield Curve Models')
+plt.legend()
+plt.grid(True)
+plt.show()
+
