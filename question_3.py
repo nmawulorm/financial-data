@@ -35,3 +35,13 @@ print(explained_variance)
 
 print("\nPrincipal Components:")
 print(components)
+
+# TODO Step 3: Analyze Variance Explained
+# Step 3: Compare variances explained by each component
+total_variance_explained = np.cumsum(explained_variance)  # Cumulative variance explained
+
+for i, var in enumerate(explained_variance):
+    print(f"Component {i+1} explains {var*100:.2f}% of the variance")
+
+print("\nCumulative Variance Explained:")
+print(total_variance_explained)
